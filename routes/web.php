@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CdtController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,12 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::prefix('cdts')->group(function () {
+    Route::get('/', [CdtController::class, 'index'])->name('cdts.index');
+    Route::get('create', [CdtController::class, 'create'])->name('cdts.create');
+    Route::post('/', [CdtController::class, 'store'])->name('cdts.store');
+})->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
